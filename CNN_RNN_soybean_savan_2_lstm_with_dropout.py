@@ -481,13 +481,13 @@ def main_program(X, Index,num_units,num_layers,Max_it, learning_rate, batch_size
             Batch_Y_2 = out_tr[:, np.arange(0,4), 2]
 
 
-            if i==60000:
+            if i==20000:
                 learning_rate=learning_rate/2
                 print('learningrate1',learning_rate)
-            elif i==120000:
+            elif i==40000:
                 learning_rate = learning_rate/2
                 print('learningrate2', learning_rate)
-            elif i==180000:
+            elif i==80000:
                 learning_rate = learning_rate/2
                 print('learningrate3', learning_rate)
 
@@ -512,7 +512,7 @@ def main_program(X, Index,num_units,num_layers,Max_it, learning_rate, batch_size
                                            Y_t: Batch_Y,
                                            Y_t_2: Batch_Y_2,
                                            is_training:True, 
-                                           lr:learning_rate,dropout:0.3})
+                                           lr:learning_rate,dropout:0.0})
 
 
             if i%1000==0:
@@ -565,7 +565,7 @@ def main_program(X, Index,num_units,num_layers,Max_it, learning_rate, batch_size
                                            S_t10: Batch_X_e[:, 312+6*9:312+6*10, :],
                                            P_t: Batch_X_e[:, 378:378+14, :],
                                            S_t_extra:Batch_X_e[:, 312+6*10:312+6*11, :],
-                                           Ybar:Ybar_tr,Y_t: Batch_Y,Y_t_2: Batch_Y_2,is_training:True,lr:learning_rate,dropout:0.3})
+                                           Ybar:Ybar_tr,Y_t: Batch_Y,Y_t_2: Batch_Y_2,is_training:True,lr:learning_rate,dropout:0.0})
 
 
                 rc_tr = np.corrcoef(np.squeeze(Batch_Y), np.squeeze(yhat1_tr))[0, 1]
@@ -592,7 +592,7 @@ def main_program(X, Index,num_units,num_layers,Max_it, learning_rate, batch_size
                                            S_t10: Batch_X_e_te[:, 312+6*9:312+6*10, :],
                                            P_t: Batch_X_e_te[:, 378:378+16, :],
                                            S_t_extra:Batch_X_e_te[:, 312+6*10:312+6*11, :],
-                                           Ybar:Ybar_te,Y_t: Batch_Y_te,Y_t_2: Batch_Y_te2,is_training:True,lr:learning_rate,dropout:0.3})
+                                           Ybar:Ybar_te,Y_t: Batch_Y_te,Y_t_2: Batch_Y_te2,is_training:True,lr:learning_rate,dropout:0.0})
 
 
                 rc=np.corrcoef(np.squeeze(Batch_Y_te),np.squeeze(yhat1_te))[0,1]
@@ -678,7 +678,7 @@ print('Std %.2f and mean %.2f  of test ' %(np.std(X[Index][:,2]),np.mean(X[Index
 
 
 Max_it=350000      # 150000 could also be used
-learning_rate=0.0003   # Learning rate
+learning_rate=0.001   # Learning rate
 batch_size_tr=25  # traning batch size
 le=0.0  # Weight of loss for prediction using times before final time steps
 l=1.0    # Weight of loss for prediction using final time s tep
@@ -689,7 +689,7 @@ try:
     rmse_tr,rmse_te,train_loss,validation_loss=main_program(X, Index,num_units,num_layers,Max_it, learning_rate, batch_size_tr,le,l)
 except Exception as e:
 # store the csv file
-    log_df.to_csv('logs/lstm_layer_1_unit_32.csv')
+    log_df.to_csv('logs/lstm_layer_with_high_lr.csv')
 
 
 

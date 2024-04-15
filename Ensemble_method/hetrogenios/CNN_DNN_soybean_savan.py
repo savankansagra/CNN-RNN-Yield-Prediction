@@ -364,7 +364,7 @@ def main_program(X, Index, num_units, num_layers, Max_it, learning_rate, batch_s
 
         mm = np.mean(avg2)
         ss = np.std(avg2)
-
+        
 
         avg = {}
 
@@ -438,7 +438,7 @@ def main_program(X, Index, num_units, num_layers, Max_it, learning_rate, batch_s
                                            Y_t: Batch_Y,
                                            Y_t_2: Batch_Y_2,
                                            is_training:True, 
-                                           lr:learning_rate,dropout:0.0})
+                                           lr:learning_rate,dropout:0.6})
 
 
             if i%1000==0:
@@ -491,7 +491,7 @@ def main_program(X, Index, num_units, num_layers, Max_it, learning_rate, batch_s
                                            S_t10: Batch_X_e[:, 312+6*9:312+6*10, :],
                                            P_t: Batch_X_e[:, 378:378+14, :],
                                            S_t_extra:Batch_X_e[:, 312+6*10:312+6*11, :],
-                                           Ybar:Ybar_tr,Y_t: Batch_Y,Y_t_2: Batch_Y_2,is_training:True,lr:learning_rate,dropout:0.0})
+                                           Ybar:Ybar_tr,Y_t: Batch_Y,Y_t_2: Batch_Y_2,is_training:True,lr:learning_rate,dropout:0.6})
 
 
                 rc_tr = np.corrcoef(np.squeeze(Batch_Y), np.squeeze(yhat1_tr))[0, 1]
@@ -518,7 +518,7 @@ def main_program(X, Index, num_units, num_layers, Max_it, learning_rate, batch_s
                                            S_t10: Batch_X_e_te[:, 312+6*9:312+6*10, :],
                                            P_t: Batch_X_e_te[:, 378:378+16, :],
                                            S_t_extra:Batch_X_e_te[:, 312+6*10:312+6*11, :],
-                                           Ybar:Ybar_te,Y_t: Batch_Y_te,Y_t_2: Batch_Y_te2,is_training:True,lr:learning_rate,dropout:0.0})
+                                           Ybar:Ybar_te,Y_t: Batch_Y_te,Y_t_2: Batch_Y_te2,is_training:True,lr:learning_rate,dropout:0.6})
 
 
                 rc=np.corrcoef(np.squeeze(Batch_Y_te),np.squeeze(yhat1_te))[0,1]
@@ -549,7 +549,7 @@ def main_program(X, Index, num_units, num_layers, Max_it, learning_rate, batch_s
                                            S_t4:Batch_X_e_te[:,342:352,:],S_t5:Batch_X_e_te[:,352:362,:],S_t6:Batch_X_e_te[:,362:372,:],
                                            S_t7: Batch_X_e_te[:, 372:382, :], S_t8: Batch_X_e_te[:, 382:392, :],
                                            S_t9: Batch_X_e_te[:, 392:402, :], S_t10: Batch_X_e_te[:, 402:412, :],P_t: Batch_X_e_te[:, 412:428, :],S_t_extra:Batch_X_e_te[:, 428:, :],
-                                           Ybar:Ybar_te,Y_t: Batch_Y_te,Y_t_2: Batch_Y_te2,is_training:True,lr:learning_rate,dropout:0.0})
+                                           Ybar:Ybar_te,Y_t: Batch_Y_te,Y_t_2: Batch_Y_te2,is_training:True,lr:learning_rate,dropout:0.6})
 
 
     print("The training RMSE is %f  and test RMSE is %f " % (rmse_tr, rmse_te))
@@ -561,12 +561,6 @@ def main_program(X, Index, num_units, num_layers, Max_it, learning_rate, batch_s
 
     return  rmse_tr,rmse_te,loss_train,loss_validation
         
-
-
-
-
-
-
 
 
 
@@ -609,7 +603,7 @@ print("train data", np.sum(np.logical_not(Index)))
 print("test data", np.sum(Index))
 
 # Model Training Parameters
-Max_it=200000      #150000 could also be used with early stopping
+Max_it=100000      #150000 could also be used with early stopping
 learning_rate=0.0003   # Learning rate
 batch_size_tr=25  # traning batch size
 le=0.0  # Weight of loss for prediction using times before final time steps
@@ -623,4 +617,4 @@ except Exception as e:
 # store the csv file
     print(e)
     traceback.print_exc()
-    log_df.to_csv('./logs/CNN_DNN.csv')
+    log_df.to_csv('./logs/CNN_DNN_drop_out_0_point_6.csv')
